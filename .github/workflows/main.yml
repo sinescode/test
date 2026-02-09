@@ -28,7 +28,7 @@ jobs:
         run: |
           # Sequence matched to your logic: 
           # 1 (Choice) -> 6 (Choice) -> 3000 (Count) -> YSN (Prefix) -> YSN (Pass) -> 2 (Rarity) -> 3 (Threads)
-          printf "1\n6\n3000\nYSN\nYSN\n2\n3\n" | python app.py
+          printf "1\n6\n30\nYSN\nYSN\n2\n3\n" | python app.py
         env:
           PYTHONUNBUFFERED: 1
 
