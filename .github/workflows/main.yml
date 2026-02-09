@@ -1,7 +1,10 @@
 name: BigBull Account Generator
 
 on:
-  workflow_dispatch: # Allows you to start the process manually from the Actions tab
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -23,17 +26,21 @@ jobs:
 
       - name: Run Generator
         run: |
-          # We use "printf" to automate the interactive inputs of your script
-          # Sequence: 1 (Region), 2000 (Count), bot (Name), pass (Pass), 2 (Rarity), 5 (Threads)
+          # Sequence matched to your logic: 
+          # 1 (Choice) -> 6 (Choice) -> 3000 (Count) -> YSN (Prefix) -> YSN (Pass) -> 2 (Rarity) -> 3 (Threads)
           printf "1\n6\n3000\nYSN\nYSN\n2\n3\n" | python app.py
         env:
           PYTHONUNBUFFERED: 1
 
       - name: Zip Generated Accounts
+        if: always() # Runs even if the script partially fails
         run: |
+          # Create folder if script failed early to prevent zip error
+          mkdir -p BIGBULL-ERA
           zip -r generated_accounts.zip BIGBULL-ERA/
 
       - name: Upload Artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: BigBull-Accounts-Package
