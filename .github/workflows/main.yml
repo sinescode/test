@@ -32,9 +32,8 @@ jobs:
 
       - name: Run Generator
         run: |
-          # Use worker_id to make unique names: ZXY1, ZXY2, etc.
-          # Reduced threads to 2 per worker to avoid the 429/400 errors seen previously
-          python main.py --region BD --count 350 --name ZXY${{ matrix:worker_id }} --pass-prefix ZXY${{ matrix:worker_id }} --threads 2 --threshold 5
+          # Fixed syntax: using matrix.worker_id
+          python main.py --region BD --count 350 --name ZXY${{ matrix.worker_id }} --pass-prefix ZXY${{ matrix.worker_id }} --threads 2 --threshold 5
         env:
           PYTHONUNBUFFERED: 1
 
@@ -42,14 +41,14 @@ jobs:
         if: always()
         run: |
           mkdir -p BIGBULL-ERA
-          # Name the zip file based on the worker number
-          zip -r generated_accounts_worker_${{ matrix:worker_id }}.zip BIGBULL-ERA/
+          # Fixed syntax: using matrix.worker_id
+          zip -r generated_accounts_worker_${{ matrix.worker_id }}.zip BIGBULL-ERA/
 
       - name: Upload Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          # Unique name for each artifact in the GitHub UI
-          name: BigBull-Package-Part-${{ matrix:worker_id }}
-          path: generated_accounts_worker_${{ matrix:worker_id }}.zip
+          # Fixed syntax: using matrix.worker_id
+          name: BigBull-Package-Part-${{ matrix.worker_id }}
+          path: generated_accounts_worker_${{ matrix.worker_id }}.zip
           retention-days: 5
