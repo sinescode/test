@@ -33,7 +33,7 @@ jobs:
       - name: Run Generator
         run: |
           # Fixed syntax: using matrix.worker_id
-          python main.py --region BD --count 350 --name ZXY${{ matrix.worker_id }} --pass-prefix ZXY${{ matrix.worker_id }} --threads 2 --threshold 5
+          python main.py --region BD --count 350 --name LAUND${{ matrix.worker_id }} --pass-prefix LAUND${{ matrix.worker_id }} --threads 2 --threshold 6
         env:
           PYTHONUNBUFFERED: 1
 
